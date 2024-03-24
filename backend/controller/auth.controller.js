@@ -11,7 +11,7 @@ export const signup = async (req, res, next) => {
         }
         const user = await userModel.findOne({ userName })
         if (user) {
-            return res.status(400).json({ error: "User already exists" })
+            return res.status(400).json({ success: false, error: "User already exists" })
         }
         //Hash password is here
         const salt = await bcryptjs.genSalt(10);
@@ -20,6 +20,7 @@ export const signup = async (req, res, next) => {
 
         const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${userName}`
         const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${userName}`
+
         const newUser = new userModel({
             fullName: fullName,
             userName: userName,
@@ -27,16 +28,22 @@ export const signup = async (req, res, next) => {
             profilePic: gender === "male" ? boyProfilePic : girlProfilePic,
             password: hashedPassword
         })
+
+        console.log(newUser);
+
         if (newUser) {
             await newUser.save();
 
             generateTokenAndSetCookie(newUser._id, res)
 
             res.status(201).json({
+                success: true,
+                status: "User logged in successfully.",
                 _id: newUser._id,
                 fullName: newUser.fullName,
                 userName: newUser.userName,
                 profilePic: newUser.profilePic
+
             })
         }
         else {
@@ -58,10 +65,13 @@ export const login = async (req, res, next) => {
 
         generateTokenAndSetCookie(user._id, res);//token generator(cookie)
         return res.status(201).json({
-            _id: user._id,
-            fullName: user.fullName,
-            userName: user.userName,
-            profilePic: user.profilePic
+            success: true,
+            user: {
+                _id: user._id,
+                fullName: user.fullName,
+                userName: user.userName,
+                profilePic: user.profilePic
+            }
         })
     } catch (error) {
         console.log(`The error in login controller :${error.message}`)
@@ -71,8 +81,8 @@ export const login = async (req, res, next) => {
 
 export const logout = (req, res) => {
     try {
-        res.cookie("jwt","",{maxAge:0})
-        res.status(200).json({message:"Logged out successfully"})
+        res.clearCookie('jwt');
+        res.status(200).json({ message: "Logged out successfully" })
     } catch (error) {
         console.log(`The error in login controller :${error.message}`)
         return res.status(500).json({ success: false, error: "Internal server error" })

@@ -16,11 +16,15 @@ app.use(express.json()); //For parsing the data which is coming from the req.bod
 app.use(cookieParser());
 
 
+app.get("/api", (req, res) => {
+    res.json({ success: "sdfds" })
+})
+
 app.use('/api/auth', authRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/user', userRoutes);
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
     connectToMongodb();
