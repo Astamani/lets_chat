@@ -5,7 +5,7 @@ import Logout from '../Logout/logout';
 import useConversation from '@/zustand/useConversation';
 import useGetConversation from '@/hooks/useGetConversation';
 import toast, { Toaster } from 'react-hot-toast';
-
+import { LogOut } from 'lucide-react';
 const Search = () => {
     const [search, setSearch] = useState("")
     const { setSelectedConversation } = useConversation()
@@ -33,7 +33,7 @@ const Search = () => {
                     <IoIosSearch className='w-6 h-6 outline-none' />
                 </button>
             </form>
-
+       
         </div>
     )
 }

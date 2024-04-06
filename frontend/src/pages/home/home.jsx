@@ -10,11 +10,15 @@ import MessageContainer from '@/components/Message/MessageContainer'
 import SendMessage from '@/components/Message/SendMessage'
 import useGetConversation from '@/hooks/useGetConversation'
 import { getRandomEmoji } from '@/utils/emojis'
+import Logout from '@/components/Logout/logout'
 const Home = () => {
     const { loading, conversation } = useGetConversation();
     console.log("Conversations", conversation)
     return (
         <div className='w-full h-full flex justify-center items-center'>
+            <div className=' w-20 h-10 bg-blue-500 text-white flex items-center justify-center rounded-full font-bold m-10'>
+                <Logout/>
+            </div>
             <ResizablePanelGroup
                 direction="horizontal"
                 className="max-h-[80%] max-w-[50vw] rounded-lg border"
