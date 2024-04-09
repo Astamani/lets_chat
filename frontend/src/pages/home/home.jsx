@@ -3,16 +3,15 @@ import {
     ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup,
-} from "@/components/ui/resizable"
-import Search from '@/components/Sidebar/Search'
-import Userbar from '@/components/Sidebar/Userbar'
-import MessageContainer from '@/components/Message/MessageContainer'
-import SendMessage from '@/components/Message/SendMessage'
-import useGetConversation from '@/hooks/useGetConversation'
-import { getRandomEmoji } from '@/utils/emojis'
-import Logout from '@/components/Logout/logout'
+} from "../../components/ui/resizable"
+import Search from '../../components/Sidebar/Search'
+import Userbar from '../../components/Sidebar/Userbar'
+import MessageContainer from '../../components/Message/MessageContainer'
+import useGetConversation from '../../hooks/useGetConversation'
+import { getRandomEmoji } from '../../utils/emojis'
+import Logout from '../../components/Logout/logout'
 const Home = () => {
-    const { loading, conversation } = useGetConversation();
+    const { conversation } = useGetConversation();
     console.log("Conversations", conversation)
     return (
         <div className='w-full h-full flex justify-center items-center'>
