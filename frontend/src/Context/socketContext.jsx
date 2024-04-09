@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, useContext } from "react";
 import { useAuthContext } from "./authContext";
 import io from 'socket.io-client'
 
-const SocketContext = createContext()
+const SocketContext = createContext();
 
 export const useSocketContext = () => {
     return useContext(SocketContext);
@@ -12,8 +12,9 @@ export const SocketContextProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const { authUser } = useAuthContext();
+
     useEffect(() => {
-        if (authUser) {
+        if (authUser && authUser.user?._id) { // Check if authUser and authUser.user are defined
             const socket = io("http://localhost:5000", {
                 query: {
                     userId: authUser.user._id
@@ -23,19 +24,20 @@ export const SocketContextProvider = ({ children }) => {
 
             socket.on("getOnlineUsers", (users) => {
                 setOnlineUsers(users);
-            })
-            return () => socket.close()
-        }
-        else{
-            if(socket){
+            });
+
+            return () => socket.close();
+        } else {
+            if (socket) {
                 socket.close();
                 setSocket(null);
             }
         }
-    }, [authUser])
+    }, [authUser]);
+
     return (
         <SocketContext.Provider value={{ socket, onlineUsers }}>
             {children}
         </SocketContext.Provider>
-    )
-}
+    );
+};

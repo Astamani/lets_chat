@@ -12,7 +12,7 @@ const Messageviewformat = () => {
    useListenMessages();
     const lastMessage = useRef();
     // console.log(messages)
-    const { selectedConversation, setSelectedConversation } = useConversation();
+    // const { selectedConversation, setSelectedConversation } = useConversation();
     useEffect(()=>{
         console.log(messages);
         setTimeout(() => {
